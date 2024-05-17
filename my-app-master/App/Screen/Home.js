@@ -4,6 +4,7 @@ import CategoryTextSlider from "../Components/Home/CategoryTextSlider";
 import Color from "../Shared/Color";
 import { Ionicons } from "@expo/vector-icons";
 import TopHeadlineSlider from "../Components/Home/TopHeadlineSlider";
+import HeadlineList from "../Components/Home/HeadlineList";
 
 function Home() {
   return (
@@ -24,6 +25,8 @@ function Home() {
       <CategoryTextSlider />
       {/*Top Headline Slider*/}
       <TopHeadlineSlider />
+      {/* Headline Lİst*/}
+      <HeadlineList />
     </View>
   );
 }
