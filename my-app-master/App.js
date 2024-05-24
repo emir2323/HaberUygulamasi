@@ -1,11 +1,13 @@
 import { StatusBar } from "expo-status-bar";
-import { SafeAreaView, StyleSheet, Text, View } from "react-native";
-import Home from "./App/Screen/Home";
+import { SafeAreaView, StyleSheet } from "react-native";
+import AddNewsForm from "./App/Components/AddNewsForm";
+import NewsComponent from "./App/Components/NewsComponent";
 
 export default function App() {
   return (
     <SafeAreaView style={styles.container}>
-      <Home />
+      <AddNewsForm />
+      <NewsComponent />
       <StatusBar style="auto" />
     </SafeAreaView>
   );

@@ -1,3 +1,5 @@
+// Home.js
+
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import CategoryTextSlider from "../Components/Home/CategoryTextSlider";
@@ -13,7 +15,7 @@ function Home() {
         style={{
           display: "flex",
           flexDirection: "row",
-          justifyContent: "space-between", // Metni ve simgeyi karşılıklı kenarlara yerleştirir
+          justifyContent: "space-between",
           alignItems: "center",
         }}
       >
@@ -21,11 +23,13 @@ function Home() {
         <Ionicons name="notifications-outline" size={24} color="black" />
       </View>
 
-      {/*Category List*/}
+      {/* Category List */}
       <CategoryTextSlider />
-      {/*Top Headline Slider*/}
+
+      {/* Top Headline Slider */}
       <TopHeadlineSlider />
-      {/* Headline Lİst*/}
+
+      {/* Headline List */}
       <HeadlineList />
     </View>
   );
@@ -40,4 +44,3 @@ const styles = StyleSheet.create({
 });
 
 export default Home;
-// dsjfhs

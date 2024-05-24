@@ -1,3 +1,5 @@
+// TopHeadlineSlider.js
+
 import React, { useEffect, useState } from "react";
 import {
   View,
@@ -11,15 +13,15 @@ import GlobalApi from "../../Services/GlobalApi";
 
 function TopHeadlineSlider() {
   const [newsList, setNewsList] = useState([]);
-  console.log("Log", newsList);
+
   useEffect(() => {
     getTopHeadline();
   }, []);
 
   const getTopHeadline = async () => {
     try {
-      const result = (await GlobalApi.getTopHeadline()).data;
-      setNewsList(result.data.articles);
+      const result = await GlobalApi.getTopHeadline().data;
+      setNewsList(result.articles); // Düzeltme yapıldı, result.data.articles -> result.articles
     } catch (error) {
       console.error("Error fetching top headlines:", error);
     }
@@ -27,6 +29,9 @@ function TopHeadlineSlider() {
 
   return (
     <View style={{ marginTop: 15 }}>
+      <Text style={{ fontSize: 20, fontWeight: "bold", marginBottom: 10 }}>
+        Top Headlines
+      </Text>
       <FlatList
         data={newsList}
         horizontal
@@ -34,22 +39,22 @@ function TopHeadlineSlider() {
         renderItem={({ item }) => (
           <TouchableOpacity
             style={{
-              width: Dimensions.get("screen").width * 0.84,
+              width: Dimensions.get("window").width * 0.84,
               marginRight: 15,
             }}
           >
             <Image
               source={{ uri: item.urlToImage }}
-              style={{ height: 350, borderRadius: 10 }}
+              style={{ height: 200, borderRadius: 10 }}
             />
             <Text
               numberOfLines={3}
-              style={{ marginTop: 10, fontSize: 23, fontWeight: "800" }}
+              style={{ marginTop: 10, fontSize: 16, fontWeight: "bold" }}
             >
               {item.title}
             </Text>
-            <Text style={{ marginTop: 5, color: Colors.primary }}>
-              {item?.source?.name}
+            <Text style={{ marginTop: 5, color: "grey" }}>
+              {item.source.name}
             </Text>
           </TouchableOpacity>
         )}
