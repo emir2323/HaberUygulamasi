@@ -1,7 +1,6 @@
 import firebase from "firebase/compat/app";
 import "firebase/compat/firestore";
-import "firebase/compat/storage"; // Storage modülünü ekleyin
-import "firebase/compat/auth";
+import "firebase/compat/storage";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCgctF74SuljUPY4i4bLoXlvXJWiXIlO5E",
@@ -13,13 +12,11 @@ const firebaseConfig = {
   measurementId: "G-977HTCD3RW",
 };
 
-// Initialize Firebase
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 }
 
 const firestore = firebase.firestore();
-const storage = firebase.storage(); // Storage'ı initialize et
-const auth = firebase.auth();
+const storage = firebase.storage();
 
-export { firebase, firestore, storage, auth };
+export { firestore, storage };

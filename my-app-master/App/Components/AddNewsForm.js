@@ -1,59 +1,33 @@
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  Button,
-  StyleSheet,
-  Alert,
-  Image,
-} from "react-native";
-import { firebase, firestore, storage } from "../../firebase";
-import * as ImagePicker from "expo-image-picker";
+import { View, Text, TextInput, Button, StyleSheet, Alert } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { firestore } from "../../firebase";
+import firebase from "firebase/compat/app";
+import "firebase/compat/firestore";
 
 const AddNewsForm = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [image, setImage] = useState(null);
+  const [imageUrl, setImageUrl] = useState("");
+  const [link, setLink] = useState("");
 
-  const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-
-    if (!result.cancelled) {
-      setImage(result.uri);
-    }
-  };
-
-  const uploadImage = async (uri) => {
-    const response = await fetch(uri);
-    const blob = await response.blob();
-    const ref = storage.ref().child(new Date().toISOString());
-    const snapshot = await ref.put(blob);
-    return await snapshot.ref.getDownloadURL();
-  };
+  const navigation = useNavigation();
 
   const handleSubmit = async () => {
-    let imageUrl = "";
-    if (image) {
-      imageUrl = await uploadImage(image);
-    }
-
     try {
       await firestore.collection("news").add({
         title: title,
         content: content,
         imageUrl: imageUrl,
+        link: link, // Link burada kaydediliyor
         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
       });
       setTitle("");
       setContent("");
-      setImage(null);
+      setImageUrl("");
+      setLink("");
       Alert.alert("Başarılı", "Haber başarıyla eklendi!");
+      navigation.navigate("NewsComponent"); // Haberler sayfasına yönlendir
     } catch (error) {
       console.error("Haber eklenirken hata oluştu:", error);
       Alert.alert("Hata", "Haber eklenirken bir hata oluştu.");
@@ -71,14 +45,31 @@ const AddNewsForm = () => {
       />
       <Text style={styles.label}>İçerik</Text>
       <TextInput
-        style={styles.input}
+        style={[styles.input, { height: 150 }]}
         value={content}
         onChangeText={(text) => setContent(text)}
         placeholder="İçerik"
+        multiline
       />
-      <Button title="Resim Seç" onPress={pickImage} />
-      {image && <Image source={{ uri: image }} style={styles.image} />}
+      <Text style={styles.label}>Resim URL</Text>
+      <TextInput
+        style={styles.input}
+        value={imageUrl}
+        onChangeText={(text) => setImageUrl(text)}
+        placeholder="Resim URL (isteğe bağlı)"
+      />
+      <Text style={styles.label}>Link</Text>
+      <TextInput
+        style={styles.input}
+        value={link}
+        onChangeText={(text) => setLink(text)}
+        placeholder="Link (isteğe bağlı)"
+      />
       <Button title="Haberi Ekle" onPress={handleSubmit} />
+      <Button
+        title="Haberleri Görüntüle"
+        onPress={() => navigation.navigate("NewsComponent")}
+      />
     </View>
   );
 };
@@ -86,6 +77,7 @@ const AddNewsForm = () => {
 const styles = StyleSheet.create({
   form: {
     marginBottom: 20,
+    padding: 10,
   },
   label: {
     marginBottom: 5,
@@ -97,11 +89,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: 10,
     paddingHorizontal: 10,
-  },
-  image: {
-    width: 100,
-    height: 100,
-    marginVertical: 10,
   },
 });
 

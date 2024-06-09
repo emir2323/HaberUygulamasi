@@ -1,23 +1,40 @@
-import { StatusBar } from "expo-status-bar";
-import { SafeAreaView, StyleSheet } from "react-native";
+import React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import HomeScreen from "./App/Components/HomeScreen";
 import AddNewsForm from "./App/Components/AddNewsForm";
 import NewsComponent from "./App/Components/NewsComponent";
+import HaberDetay from "./App/Components/HaberDetay";
 
-export default function App() {
+const Stack = createStackNavigator();
+
+const App = () => {
   return (
-    <SafeAreaView style={styles.container}>
-      <AddNewsForm />
-      <NewsComponent />
-      <StatusBar style="auto" />
-    </SafeAreaView>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="HomeScreen">
+        <Stack.Screen
+          name="HomeScreen"
+          component={HomeScreen}
+          options={{ title: "Yıldırım Haber" }}
+        />
+        <Stack.Screen
+          name="AddNewsForm"
+          component={AddNewsForm}
+          options={{ title: "Haber Ekle" }}
+        />
+        <Stack.Screen
+          name="NewsComponent"
+          component={NewsComponent}
+          options={{ title: "Haberler" }}
+        />
+        <Stack.Screen
+          name="HaberDetay"
+          component={HaberDetay}
+          options={{ title: "Haber Detayı" }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    paddingTop: 20,
-    padding: 30,
-  },
-});
+export default App;
